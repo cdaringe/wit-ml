@@ -1,21 +1,5 @@
-# ReScript Project Template
+# wit-ml
 
-The only official ReScript starter template.
+witwiki browser application
 
-## Installation
-
-```sh
-npm install
-```
-
-## Build
-
-- Build: `npm run build`
-- Clean: `npm run clean`
-- Build & watch: `npm run start`
-
-## Run
-
-```sh
-node src/Demo.bs.js
-```
+See [./github/contributing.md](.github/contributing.md) for how to contribute.
