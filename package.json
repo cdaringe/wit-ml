@@ -1,0 +1,39 @@
+{
+  "name": "rescript-project-template",
+  "version": "0.0.1",
+  "scripts": {
+    "build:bundle": "esbuild src/App.bs.js --bundle --outdir=public/js",
+    "build:rescript": "rescript",
+    "build:tailwind": "tailwindcss -i ./src/app.css -o ./public/css/app.css",
+    "build": "run-s build:rescript build:bundle build:tailwind",
+    "clean": "rescript clean -with-deps",
+    "dev": "pnpm run clean && run-p dev:*",
+    "dev:rescript": "rescript build -w",
+    "dev:tailwind": "tailwindcss -i ./src/app.css -o ./public/css/app.css --watch",
+    "dev:server": "node-dev dev-server.mjs"
+  },
+  "keywords": [
+    "rescript"
+  ],
+  "author": "cdaringe",
+  "license": "MIT",
+  "dependencies": {
+    "decco": "^1.6.0",
+    "insane": "2.6.2",
+    "marked": "4.0.18",
+    "remark": "14.0.2",
+    "remark-gfm": "3.0.1",
+    "rescript": "*",
+    "rescript-classnames": "^6.0.0"
+  },
+  "devDependencies": {
+    "@rescript/react": "0.10.3",
+    "bs-fetch": "0.6.2",
+    "esbuild": "0.14.48",
+    "node-dev": "7.4.3",
+    "npm-run-all": "4.1.5",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "tailwindcss": "3.1.4"
+  }
+}

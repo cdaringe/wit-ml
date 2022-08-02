@@ -1,0 +1,11 @@
+.DS_Store
+/node_modules/
+/lib/
+.bsb.lock
+.merlin
+*.js
+build
+!tailwind.config.js
+.merlin
+!dev-server.js
+lib
