@@ -15,6 +15,7 @@ specifiers:
   remark-gfm: 3.0.1
   rescript: '*'
   rescript-classnames: ^6.0.0
+  rescript-webapi: 0.6.1
   tailwindcss: 3.1.4
 
 dependencies:
@@ -34,6 +35,7 @@ devDependencies:
   npm-run-all: 4.1.5
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
+  rescript-webapi: 0.6.1
   tailwindcss: 3.1.4
 
 packages:
@@ -1626,6 +1628,10 @@ packages:
   /rescript-classnames/6.0.0:
     resolution: {integrity: sha512-hfOffijzIPnULtRZW3Kf0DCfCaw9lhGaMxf81WYlREieyBS2KNMcdI/8g5uSXFj0j4Ci21xkf70EFCKjuCTqpw==}
     dev: false
+
+  /rescript-webapi/0.6.1:
+    resolution: {integrity: sha512-I/eeHOcsUfWbCf6u15zd+rKxMz9awSjjdRa8eFtl2X+HjDNs0mJxoC4uFFK9dIazYcmY2VpuK5TTpOPXvdkhDw==}
+    dev: true
 
   /rescript/9.1.4:
     resolution: {integrity: sha512-aXANK4IqecJzdnDpJUsU6pxMViCR5ogAxzuqS0mOr8TloMnzAjJFu63fjD6LCkWrKAhlMkFFzQvVQYaAaVkFXw==}

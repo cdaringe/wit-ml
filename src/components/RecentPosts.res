@@ -17,7 +17,7 @@ let make = (~className: option<string>=?, ~title: string) => {
     None
   })
   <div className={Belt_Option.getWithDefault(className, "")}>
-    {string(title)}
+    <Html.H2> {string(title)} </Html.H2>
     {switch s {
     | None => React.null
     | Some(data) =>

@@ -15,7 +15,8 @@
     "decco",
     "@rescript/react",
     "bs-fetch",
-    "rescript-classnames"
+    "rescript-classnames",
+    "rescript-webapi"
   ],
   "ppx-flags": ["decco/ppx"],
   "warnings": {
