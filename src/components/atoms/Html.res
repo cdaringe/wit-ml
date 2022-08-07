@@ -31,8 +31,8 @@ module H4 = {
 }
 module Input = {
   @react.component
-  let make = (~className=?, ~type_=?, ~children=?) =>
-    <input className={Cx.cx(["p-2", getOr(className, "")])} type_={getOr(type_, "text")}>
+  let make = (~className=?, ~type_=?, ~onChange=?, ~children=?) =>
+    <input ?onChange className={Cx.cx(["p-2", getOr(className, "")])} type_={getOr(type_, "text")}>
       {getOr(children, React.null)}
     </input>
 }

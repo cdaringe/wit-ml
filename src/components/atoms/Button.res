@@ -11,8 +11,9 @@ type kind =
   | Other
 
 @react.component
-let make = (~id=?, ~size=?, ~kind=?, ~type_=?, ~className=?, ~children) => {
+let make = (~id=?, ~size=?, ~kind=?, ~type_=?, ~className=?, ~disabled=false, ~children) => {
   <button
+    disabled={disabled}
     id={getWithDefault(id, "")}
     type_={getWithDefault(type_, "button")}
     className={Cx.cx([
@@ -20,8 +21,9 @@ let make = (~id=?, ~size=?, ~kind=?, ~type_=?, ~className=?, ~children) => {
       | Medium => "p-2"
       | _ => ""
       },
-      switch getWithDefault(kind, Primary) {
-      | Primary => "bg-blue-600"
+      switch (disabled, getWithDefault(kind, Primary)) {
+      | (true, _) => "bg-gray-600"
+      | (false, Primary) => "bg-blue-600"
       | _ => ""
       },
       getWithDefault(className, ""),

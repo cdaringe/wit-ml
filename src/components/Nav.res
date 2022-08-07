@@ -23,7 +23,7 @@ module Group = {
   @react.component
   let make = (~links) => {
     <ul className="list-none inline-flex">
-      {map(links, ((href, text)) => <Item href text />) |> React.array}
+      {map(links, ((href, text)) => <Item key={href} href text />) |> React.array}
     </ul>
   }
 }
