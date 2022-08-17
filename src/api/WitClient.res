@@ -1,4 +1,4 @@
-let getUrl = parts => j`/api/${Str.join(parts, "/")}}`
+let getUrl = parts => j`/api/${Str.join(parts, "/")}`
 
 let raiseOnNotOk = WitJs.Promise.tap(res => {
   if Fetch.Response.ok(res) {

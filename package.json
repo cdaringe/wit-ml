@@ -8,8 +8,6 @@
     "build": "run-s build:rescript build:bundle build:tailwind",
     "clean": "rescript clean -with-deps",
     "dev": "pnpm run clean && run-p dev:*",
-    "dev:rescript": "rescript build -w",
-    "dev:tailwind": "tailwindcss -i ./src/app.css -o ./public/css/app.css --watch",
     "dev:server": "node-dev dev-server.mjs"
   },
   "keywords": [
@@ -18,13 +16,15 @@
   "author": "cdaringe",
   "license": "MIT",
   "dependencies": {
+    "bs-platform": "9.0.2",
     "decco": "^1.6.0",
     "insane": "2.6.2",
     "marked": "4.0.18",
+    "reason-promise": "1.1.5",
     "remark": "14.0.2",
     "remark-gfm": "3.0.1",
     "rescript": "*",
-    "rescript-classnames": "^6.0.0"
+    "rescript-classnames": "6.0.0"
   },
   "devDependencies": {
     "@rescript/react": "0.10.3",

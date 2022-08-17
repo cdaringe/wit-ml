@@ -3,6 +3,7 @@ lockfileVersion: 5.4
 specifiers:
   '@rescript/react': 0.10.3
   bs-fetch: 0.6.2
+  bs-platform: ^9.0.2
   decco: ^1.6.0
   esbuild: 0.14.48
   insane: 2.6.2
@@ -11,6 +12,7 @@ specifiers:
   npm-run-all: 4.1.5
   react: 18.2.0
   react-dom: 18.2.0
+  reason-promise: 1.1.5
   remark: 14.0.2
   remark-gfm: 3.0.1
   rescript: '*'
@@ -19,9 +21,11 @@ specifiers:
   tailwindcss: 3.1.4
 
 dependencies:
-  decco: 1.6.0
+  bs-platform: 9.0.2
+  decco: 1.6.0_bs-platform@9.0.2
   insane: 2.6.2
   marked: 4.0.18
+  reason-promise: 1.1.5
   remark: 14.0.2
   remark-gfm: 3.0.1
   rescript: 9.1.4
@@ -164,6 +168,12 @@ packages:
     resolution: {integrity: sha512-VXEjp8kY3vHPckaoy3d96Bx0KYjJAPLNISBwfpwMN26K6DtuZYwI2HKhx7zeHBajz1bRArfx7O8OOLcdtujMvg==}
     dev: true
 
+  /bs-platform/9.0.2:
+    resolution: {integrity: sha512-Ye9JqJ4Oa7mcjjoOVRYI8Uc2Cf8N7jQLWDcdUplY7996d/YErSR7WitmV7XnSwr4EvdrbwjEsg1NxNjUQv3ChA==}
+    hasBin: true
+    requiresBuild: true
+    dev: false
+
   /call-bind/1.0.2:
     resolution: {integrity: sha512-7O+FbCihrB5WGbFYesctwmTKae6rOiIzmz1icreWJ+0aA7LJfuqhEso2T9ncpcFtzMQtzXf2QGGueWJGTYsqrA==}
     dependencies:
@@ -263,11 +273,13 @@ packages:
       ms: 2.1.2
     dev: false
 
-  /decco/1.6.0:
+  /decco/1.6.0_bs-platform@9.0.2:
     resolution: {integrity: sha512-gdeDDPOh45Hz8YGvTkDP7ySo3Ll3ty+KfuFj21+jRbiCoE8HTCNB++pozCiMljxJx39CfvrHRYBY5FO5PMyXzw==}
     requiresBuild: true
     peerDependencies:
       bs-platform: 6 || 7 || 8 || 9
+    dependencies:
+      bs-platform: 9.0.2
     dev: false
 
   /decode-named-character-reference/1.0.2:
@@ -1575,6 +1587,10 @@ packages:
     dependencies:
       picomatch: 2.3.1
     dev: true
+
+  /reason-promise/1.1.5:
+    resolution: {integrity: sha512-T4VI8e3WrQ30HbQcmQ8HvJPZckD4AeTcZ+1aNdpJ/pjjRwjlBy63hr4v8fMSID0/6kPh1KrhN+5+4n7MouoZKQ==}
+    dev: false
 
   /regexp.prototype.flags/1.4.3:
     resolution: {integrity: sha512-fjggEOO3slI6Wvgjwflkc4NFRCTZAu5CnNfBd5qOMYhWdn67nJBBu34/TkD++eeFmd8C9r9jfXJ27+nSiRkSUA==}

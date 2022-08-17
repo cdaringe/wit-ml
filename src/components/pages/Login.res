@@ -9,27 +9,38 @@ let labels = {
 @react.component
 let make = () => {
   let (localErrors, setLocalErrs) = React.useState(_ => empty)
+  let (remoteErr, setRemoteError) = React.useState(_ => None)
   let (password, setPw) = React.useState(_ => "")
-  let onPwChange = WitDom.React.useSetOnChange(setPw)
+  let onPwChange = WitDom.React.useSetOnChange(v => {
+    setLocalErrs(prev => remove(prev, labels["pw"]))
+    setPw(v)
+  })
   let (username, setUn) = React.useState(_ => "")
-  let onUnChange = WitDom.React.useSetOnChange(setUn)
-  let onSubmit = useCallback0(evt => {
+  let onUnChange = WitDom.React.useSetOnChange(v => {
+    setLocalErrs(prev => remove(prev, labels["un"]))
+    setUn(v)
+  })
+  let onSubmit = evt => {
     open ReactEvent.Form
+    open WitJs.Promise
     preventDefault(evt)
     switch (username, password) {
-    | ("", _) => setLocalErrs(_ => set(localErrors, labels["un"], "Missing username"))
-    | (_, "") => setLocalErrs(_ => set(localErrors, labels["pw"], "Missing password"))
+    | ("", _pw) => setLocalErrs(_ => set(localErrors, labels["un"], "Missing username"))
+    | (_un, "") => setLocalErrs(_ => set(localErrors, labels["pw"], "Missing password"))
     | _ =>
       WitClient.Auth.login(~username, ~password)
-      |> WitJs.Promise.tap(v => {
-        v->ignore
-      })
-      |> Js.Promise.catch(_err => {
-        raise(Exn.Unimplemented)
+      |> tap(_v => setRemoteError(_ => None))
+      |> catchTap(err => {
+        switch err {
+        // | Js.Exn(ex) => "jamon"
+        // | Js.Exn. =>
+        // | Exn.FailedRequestJson(_) => "Network failure"
+        | v => j` ${Obj.magic(v)}`
+        } |> (err' => setRemoteError(_ => Some(err')))
       })
       |> ignore
     }
-  })
+  }
   <form onSubmit>
     <Html.H1 className="mb-2"> {"Login"->string} </Html.H1>
     {
@@ -42,8 +53,13 @@ let make = () => {
       let err = get(localErrors, label)
       <FormField input={<Html.Input type_="password" onChange={onPwChange} />} label ?err />
     }
+    <br />
     <Button type_="submit" disabled={size(localErrors) > 0} className="mt-2">
       {"Submit"->string}
     </Button>
+    {switch remoteErr {
+    | Some(msg) => <p className="text-red-500"> {msg->string} </p>
+    | _ => null
+    }}
   </form>
 }
