@@ -1,6 +1,6 @@
 @react.component
 let make = () => {
-  let {user} = React.useContext(WitCtxUser.context)
+  let {user} = WitCtxUser.useContext()
   let userName = Belt.Option.map(user, u => u.username)
   <div className="header">
     <Nav.Bar className="flex-grow-0" ?userName />

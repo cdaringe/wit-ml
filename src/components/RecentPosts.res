@@ -12,9 +12,7 @@ let make = (~className: option<string>=?, ~title: string) => {
   useEffect0(() => {
     WitClient.Posts.getRecent(~limit=10, ~offset=0)
     ->Promise.tapError(Js.Console.error)
-    ->Promise.tapOk(v => {
-      setRecentPosts(_ => Some(v))
-    })
+    ->Promise.tapOk(v => setRecentPosts(_ => Some(v)))
     ->ignore
     None
   })

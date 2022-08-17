@@ -37,7 +37,7 @@ let make = () => {
     setLocalErrs(prev => remove(prev, labels["un"]))
     setUn(v)
   })
-  let {setUser} = React.useContext(WitCtxUser.context)
+  let {setUser} = WitCtxUser.useContext()
   let onSubmit = evt => {
     open ReactEvent.Form
     preventDefault(evt)
