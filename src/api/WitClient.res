@@ -66,7 +66,7 @@ module Posts = {
   let get = (~slug: string) => getModel([j`/posts/${slug}`], Post.t_decode)
   let getRecent = (~limit: int, ~offset: int) =>
     getModel(
-      [j`/posts/recent?limit=${Belt.Int.toString(limit)}&offset=${Belt.Int.toString(offset)}`],
+      [j`posts/recent?limit=${Belt.Int.toString(limit)}&offset=${Belt.Int.toString(offset)}`],
       Post.t_decode,
     )
 }

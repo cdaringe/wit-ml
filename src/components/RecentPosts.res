@@ -11,6 +11,7 @@ let make = (~className: option<string>=?, ~title: string) => {
   // @todo https://github.com/rescriptbr/react-query
   useEffect0(() => {
     WitClient.Posts.getRecent(~limit=10, ~offset=0)
+    ->Promise.tapError(Js.Console.error)
     ->Promise.tapOk(v => {
       setRecentPosts(_ => Some(v))
     })
