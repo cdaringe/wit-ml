@@ -1,3 +1,14 @@
+let toResult = (opt, e) =>
+  switch opt {
+  | Some(v) => Ok(v)
+  | None => e
+  }
+let fromResult = res =>
+  switch res {
+  | Ok(v) => Some(v)
+  | _ => None
+  }
+
 let getOr = (vOpt, fallback) =>
   switch vOpt {
   | Some(v) => v

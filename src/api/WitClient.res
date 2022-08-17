@@ -83,6 +83,6 @@ module Auth = {
       username: username,
       password: password,
     })
-    postModel(["login"], ~json=model, _t => Belt.Result.Ok(Js.Json.null))
+    postModel(["login"], ~json=model, User.t_decode)
   }
 }

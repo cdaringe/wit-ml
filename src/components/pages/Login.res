@@ -8,6 +8,17 @@ let labels = {
 
 @react.component
 let make = () => {
+  let url = RescriptReactRouter.useUrl()
+  let redirectTo = useMemo1(() => {
+    open Webapi
+    let url = Url.make(Dom.Location.href(Dom.location))
+    Url.searchParams(url)->Url.URLSearchParams.get("redirectTo")
+  }, [url.search])
+  let {user} = WitCtxUser.useContext()
+  let routeAwayOnAuth = React.useCallback1(() => {
+    let nextUrl = Belt.Option.getWithDefault(redirectTo, "/")
+    RescriptReactRouter.replace(nextUrl)
+  }, [redirectTo])
   let (localErrors, setLocalErrs) = React.useState(_ => empty)
   let (remoteErr, setRemoteError) = React.useState(_ => None)
   let (password, setPw) = React.useState(_ => "")
@@ -16,10 +27,17 @@ let make = () => {
     setPw(v)
   })
   let (username, setUn) = React.useState(_ => "")
+  React.useEffect0(() => {
+    if Belt.Option.isSome(user) {
+      routeAwayOnAuth()
+    }
+    None
+  })
   let onUnChange = WitDom.React.useSetOnChange(v => {
     setLocalErrs(prev => remove(prev, labels["un"]))
     setUn(v)
   })
+  let {setUser} = React.useContext(WitCtxUser.context)
   let onSubmit = evt => {
     open ReactEvent.Form
     preventDefault(evt)
@@ -28,10 +46,15 @@ let make = () => {
     | (_un, "") => setLocalErrs(_ => set(localErrors, labels["pw"], "Missing password"))
     | _ =>
       WitClient.Auth.login(~username, ~password)
-      ->Promise.tap(_v => setRemoteError(_ => None))
+      ->Promise.tapOk(user => {
+        setRemoteError(_ => None)
+        setUser(Belt.Array.getExn(user.values, 0))
+        routeAwayOnAuth()
+      })
       ->Promise.tapError(err => {
-        setRemoteError(_ => Some(j` ${Obj.magic(err)}`))
-      }) |> ignore
+        setRemoteError(_ => Some(j`Login failed: ${WitErr.errMsg(err)}`))
+      })
+      ->ignore
     }
   }
   <form onSubmit>
