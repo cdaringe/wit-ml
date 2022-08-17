@@ -6,12 +6,10 @@ let make = () => {
   let url = RescriptReactRouter.useUrl()
   useEffect0(() => {
     open WitClient
-    open Js.Promise
     let slug = url.path->Belt_List.getExn(1)
-    let _ = Posts.get(~slug)->then_((res: ApiResponse.t<Post.t>) => {
+    let _ = Posts.get(~slug)->Promise.getOk((res: ApiResponse.t<Post.t>) => {
       setPostOpt(_ => Some(Belt_Array.getUnsafe(res.values, 0)))
-      resolve(res)
-    }, _)
+    })
     None
   })
   MdHk.useSetMdOpt(setBody, postOpt, p => p.body)

@@ -1,22 +1,32 @@
+type response = Fetch.Response.t
+@val external fetch: string => Promise.t<response> = "fetch"
+@val external fetchWithInit: (string, Fetch.RequestInit.t) => Promise.t<response> = "fetch"
+@send external text: response => Promise.t<string> = "text"
+
+type apiResult<'a> = Promise.result<'a, WitErr.witErr>
+type apiPMap<'a, 'b> = Promise.t<apiResult<'a>> => Promise.t<apiResult<'b>>
+
 let getUrl = parts => j`/api/${Str.join(parts, "/")}`
 
-let raiseOnNotOk = WitJs.Promise.tap(res => {
-  if Fetch.Response.ok(res) {
-    ()
-  } else {
-    raise(Exn.FailedRequest(res))
-  }
-})
-
-let json: Js.Promise.t<'a> => Js.Promise.t<Js.Json.t> = reqP => {
-  open WitJs.Promise
-  then(reqP, req => {
-    let textP = Fetch.Response.text(req)
-    then_map(textP, text => WitJson.parse(text, Exn.FailedRequestJson(req)))
+let errorOnNotOk: Promise.t<response> => Promise.t<apiResult<response>> = p =>
+  p->Promise.flatMap(res => {
+    if Fetch.Response.ok(res) {
+      Ok(res)->Promise.resolved
+    } else {
+      Error(WitErr.Failed_request)->Promise.resolved
+    }
   })
-}
 
-let getJson = pathParts => pathParts->getUrl->Bs_fetch.fetch->raiseOnNotOk->json
+let json: apiPMap<'a, 'b> = p =>
+  p
+  ->Promise.flatMapOk(res => text(res)->Promise.map(v => Ok(v)))
+  ->Promise.mapError(_e => WitErr.Failed_request)
+  ->Promise.flatMapOk(text => {
+    let v: Promise.t<apiResult<'b>> = WitJson.parse(text)->Promise.resolved
+    v
+  })
+
+let getJson = pathParts => pathParts->getUrl->fetch->errorOnNotOk->json
 
 let post = (
   ~makeInit as makeInit'=?,
@@ -38,17 +48,18 @@ let post = (
   | Some(fn) => fn(~makeInit, ~url, ~method_, ~headers, ~body=encodedBody)
   | None => makeInit(~method_, ~headers, ~body=encodedBody, ())
   }
-  Bs_fetch.fetchWithInit(url, init)->raiseOnNotOk->json
+  fetchWithInit(url, init)->errorOnNotOk->json
 }
 
 let getModel = (pathParts, decode) =>
-  getJson(pathParts)->WitJs.Promise.then_map(json =>
-    ApiResponse.t_decode(decode, json)->Belt_Result.getExn
-  )
+  getJson(pathParts)->Promise.mapOk(json => ApiResponse.t_decode(decode, json)->Belt_Result.getExn)
 
 let postModel = (routeParts, ~json, decode) =>
-  post(~body=json, routeParts)->WitJs.Promise.then_map(json =>
-    ApiResponse.t_decode(decode, json)->Belt_Result.getExn
+  post(~body=json, routeParts)->Promise.flatMapOk(json =>
+    switch ApiResponse.t_decode(decode, json) {
+    | Ok(v) => Ok(v)
+    | Error(e) => Error(WitErr.Invalid_model_decode(e.message))
+    }->Promise.resolved
   )
 
 module Posts = {
@@ -72,6 +83,6 @@ module Auth = {
       username: username,
       password: password,
     })
-    postModel(["login", "password"], ~json=model, _t => Belt.Result.Ok(Js.Json.null))
+    postModel(["login"], ~json=model, _t => Belt.Result.Ok(Js.Json.null))
   }
 }

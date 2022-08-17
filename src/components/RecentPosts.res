@@ -10,10 +10,11 @@ let make = (~className: option<string>=?, ~title: string) => {
   let (s, setRecentPosts) = useState(_ => None)
   // @todo https://github.com/rescriptbr/react-query
   useEffect0(() => {
-    WitClient.Posts.getRecent(~limit=10, ~offset=0)->Js.Promise.then_(v => {
+    WitClient.Posts.getRecent(~limit=10, ~offset=0)
+    ->Promise.tapOk(v => {
       setRecentPosts(_ => Some(v))
-      Js.Promise.resolve(None)
-    }, _)->ignore
+    })
+    ->ignore
     None
   })
   <div className={Belt_Option.getWithDefault(className, "")}>

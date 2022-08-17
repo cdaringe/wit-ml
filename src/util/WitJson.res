@@ -1,4 +1,6 @@
-let parse = (text, exn) =>
-  try Js.Json.parseExn(text) catch {
-  | _ => raise(exn)
+let parse = text =>
+  try {
+    Ok(Js.Json.parseExn(text))
+  } catch {
+  | _ => Error(WitErr.Invalid_json)
   }

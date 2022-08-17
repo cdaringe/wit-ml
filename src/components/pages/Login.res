@@ -22,23 +22,16 @@ let make = () => {
   })
   let onSubmit = evt => {
     open ReactEvent.Form
-    open WitJs.Promise
     preventDefault(evt)
     switch (username, password) {
     | ("", _pw) => setLocalErrs(_ => set(localErrors, labels["un"], "Missing username"))
     | (_un, "") => setLocalErrs(_ => set(localErrors, labels["pw"], "Missing password"))
     | _ =>
       WitClient.Auth.login(~username, ~password)
-      |> tap(_v => setRemoteError(_ => None))
-      |> catchTap(err => {
-        switch err {
-        // | Js.Exn(ex) => "jamon"
-        // | Js.Exn. =>
-        // | Exn.FailedRequestJson(_) => "Network failure"
-        | v => j` ${Obj.magic(v)}`
-        } |> (err' => setRemoteError(_ => Some(err')))
-      })
-      |> ignore
+      ->Promise.tap(_v => setRemoteError(_ => None))
+      ->Promise.tapError(err => {
+        setRemoteError(_ => Some(j` ${Obj.magic(err)}`))
+      }) |> ignore
     }
   }
   <form onSubmit>
