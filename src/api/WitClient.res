@@ -26,7 +26,9 @@ let json: apiPMap<'a, 'b> = p =>
     v
   })
 
-let getJson = pathParts => pathParts->getUrl->fetch->errorOnNotOk->json
+let tapCatchLog = p => p->Promise.tapError(Js.Console.error)
+
+let getJson = pathParts => pathParts->getUrl->fetch->errorOnNotOk->json->tapCatchLog
 
 let post = (
   ~makeInit as makeInit'=?,
@@ -39,7 +41,10 @@ let post = (
   let makeInit = Bs_fetch.RequestInit.make
   let method_ = Bs_fetch.Post
   let encodedBody = Fetch.BodyInit.make(body->encodeBody)
-  let defaultHeaders = Js.Dict.fromArray([("content-type", "application/json")])
+  let defaultHeaders = Js.Dict.fromArray([
+    ("content-type", "application/json"),
+    ("accept", "application/json"),
+  ])
   let headers = switch setHeaders' {
   | Some(m) => m(defaultHeaders)
   | _ => defaultHeaders
@@ -48,7 +53,7 @@ let post = (
   | Some(fn) => fn(~makeInit, ~url, ~method_, ~headers, ~body=encodedBody)
   | None => makeInit(~method_, ~headers, ~body=encodedBody, ())
   }
-  fetchWithInit(url, init)->errorOnNotOk->json
+  fetchWithInit(url, init)->errorOnNotOk->json->tapCatchLog
 }
 
 let getModel = (pathParts, decode) =>
@@ -58,13 +63,13 @@ let postModel = (routeParts, ~json, decode) =>
   post(~body=json, routeParts)->Promise.flatMapOk(json =>
     switch ApiResponse.t_decode(decode, json) {
     | Ok(v) => Ok(v)
-    | Error(e) => Error(WitErr.Invalid_model_decode(e.message))
+    | Error(e) => Error(WitErr.Invalid_model_decode(e))
     }->Promise.resolved
   )
 
 module Posts = {
-  let get = (~slug: string) => getModel([j`/posts/${slug}`], Post.t_decode)
-  let getRecent = (~limit: int, ~offset: int) =>
+  let get = (~slug: string) => getModel([j`posts/${slug}`], Post.t_decode)
+  let getRecent = (~limit: int, ~offset: int, ()) =>
     getModel(
       [j`posts/recent?limit=${Belt.Int.toString(limit)}&offset=${Belt.Int.toString(offset)}`],
       Post.t_decode,
@@ -85,4 +90,5 @@ module Auth = {
     })
     postModel(["login"], ~json=model, User.t_decode)
   }
+  let logout = () => postModel(["logout"], ~json=Js.Json.null, _ => Ok())
 }

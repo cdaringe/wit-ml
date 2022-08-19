@@ -33,6 +33,7 @@ module Group = {
 module Bar = {
   @react.component
   let make = (~className=?, ~userName=?) => {
+    let {setUser} = WitCtxUser.useContext()
     <nav className={j`nav-m w-full text-white ${Belt.Option.getWithDefault(className, "")}`}>
       <Group links={[("/", string("Home")), ("/about", string("About"))]} />
       <ul />
@@ -42,10 +43,13 @@ module Bar = {
             userName,
             (
               "/logout",
-              <>
+              <div
+                onClick={_ => {
+                  WitClient.Auth.logout()->Promise.tapOk(_ => setUser(None))->ignore
+                }}>
                 <p className="font-bold"> {Belt.Option.mapWithDefault(userName, null, string)} </p>
                 <span className="text-sm"> {string("Logout")} </span>
-              </>,
+              </div>,
             ),
             ("/login", string("Login")),
           ),

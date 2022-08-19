@@ -1,4 +1,4 @@
-type t = {user: option<User.t>, setUser: User.t => unit}
+type t = {user: option<User.t>, setUser: option<User.t> => unit}
 
 let emptySetUser = _ => ()
 
@@ -30,12 +30,12 @@ module Provider = {
       user: initialUser,
       setUser: emptySetUser,
     })
-    let setUser = React.useCallback1(user => {
+    let setUser = React.useCallback1(userOpt => {
       setValue(last => {
         ...last,
-        user: Some(user),
+        user: userOpt,
       })
-      UserStorage.write(user)
+      Opt.effect(userOpt, user => UserStorage.write(user))
     }, [value.user])
     React.createElement(provider, {"value": {...value, setUser: setUser}, "children": children})
   }

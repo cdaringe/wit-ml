@@ -48,11 +48,11 @@ let make = () => {
       WitClient.Auth.login(~username, ~password)
       ->Promise.tapOk(user => {
         setRemoteError(_ => None)
-        setUser(Belt.Array.getExn(user.values, 0))
+        setUser(Some(Belt.Array.getExn(user.values, 0)))
         routeAwayOnAuth()
       })
       ->Promise.tapError(err => {
-        setRemoteError(_ => Some(j`Login failed: ${WitErr.errMsg(err)}`))
+        setRemoteError(_ => Some(j`Login failed: ${WitErr.toString(err)}`))
       })
       ->ignore
     }

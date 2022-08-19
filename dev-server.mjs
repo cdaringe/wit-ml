@@ -110,6 +110,7 @@ const proxyToApi = ({ host, req, port, res }) => {
     }
   );
   req.pipe(proxyReq, { end: true }).on("error", (err) => {
+    res.statusCode = 500;
     res.end();
     logError(`proxy->api fail: ${err}\n(${req.host} ${req.url})`);
   });

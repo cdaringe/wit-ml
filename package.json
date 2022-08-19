@@ -16,10 +16,12 @@
   "author": "cdaringe",
   "license": "MIT",
   "dependencies": {
+    "@rescriptbr/react-query": "0.0.1",
     "bs-platform": "9.0.2",
     "decco": "^1.6.0",
     "insane": "2.6.2",
     "marked": "4.0.18",
+    "react-query": "3.39.2",
     "reason-promise": "1.1.5",
     "remark": "14.0.2",
     "remark-gfm": "3.0.1",

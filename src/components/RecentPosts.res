@@ -1,3 +1,4 @@
+let {string, array} = module(React)
 let onNavLinkClick = evt => {
   open ReactEvent.Mouse
   let href = target(evt)["href"]
@@ -6,27 +7,24 @@ let onNavLinkClick = evt => {
 }
 @react.component
 let make = (~className: option<string>=?, ~title: string) => {
-  open React
-  let (s, setRecentPosts) = useState(_ => None)
-  // @todo https://github.com/rescriptbr/react-query
-  useEffect0(() => {
-    WitClient.Posts.getRecent(~limit=10, ~offset=0)
-    ->Promise.tapError(Js.Console.error)
-    ->Promise.tapOk(v => setRecentPosts(_ => Some(v)))
-    ->ignore
-    None
-  })
+  let recentPosts = CQuery.useQuery(
+    ~queryFn=WitClient.Posts.getRecent(~limit=10, ~offset=0),
+    ~fatalErr=WitErr.Failed_request,
+  )
   <div className={Belt_Option.getWithDefault(className, "")}>
     <Html.H2> {string(title)} </Html.H2>
-    {switch s {
-    | None => React.null
-    | Some(data) =>
+    {switch recentPosts {
+    | (CQuery.Empty, _)
+    | (CQuery.Error(_), CQuery.Fetching(_)) =>
+      <SkeletonList />
+    | (CQuery.Error(err), CQuery.Idle) => err->WitErr.toString->string
+    | (CQuery.Data(data), _) =>
       <ol className="list-decimal list-inside">
-        {Belt.Array.map(data.values, v =>
-          <li>
-            <a href={Link.slugToPath(v.slug)} onClick={onNavLinkClick}> {v.title->string} </a>
+        {Belt.Array.map(data.values, it =>
+          <li key=it.slug>
+            <a href={Link.slugToPath(it.slug)} onClick={onNavLinkClick}> {it.title->string} </a>
           </li>
-        )->React.array}
+        )->array}
       </ol>
     }}
   </div>
