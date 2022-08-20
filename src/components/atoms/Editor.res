@@ -2,13 +2,16 @@ module Monaco = {
   type create_editor_options = {
     value: option<string>,
     language: string,
+    automaticLayout: option<bool>,
   }
-  type monaco_environment = {getWorkerUrl: (string, string) => string}
 
-  type editor = {create: (Dom.element, create_editor_options) => unit}
+  type idim = {height: int, width: int}
 
-  @module("monaco-editor/esm/vs/editor/editor.main.js") external editor: editor = "editor"
+  type editor
+  @send external layout: (editor, idim) => unit = "layout"
 
-  @module("monaco-editor/esm/vs/editor/editor.main.js")
-  external monacoEnvironment: monaco_environment = "MonacoEnvironment"
+  type editorNs
+  @send external create: (editorNs, Dom.element, create_editor_options) => editor = "create"
+
+  @module("monaco-editor/esm/vs/editor/editor.main.js") external editor: editorNs = "editor"
 }

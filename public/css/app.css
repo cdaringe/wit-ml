@@ -604,6 +604,10 @@ video {
   border-width: 0;
 }
 
+.relative {
+  position: relative;
+}
+
 .m-auto {
   margin: auto;
 }
@@ -658,6 +662,10 @@ video {
 
 .max-h-24 {
   max-height: 6rem;
+}
+
+.min-h-full {
+  min-height: 100%;
 }
 
 .w-full {
