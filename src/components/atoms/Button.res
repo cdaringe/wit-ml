@@ -11,8 +11,18 @@ type kind =
   | Other
 
 @react.component
-let make = (~id=?, ~size=?, ~kind=?, ~type_=?, ~className=?, ~disabled=false, ~children) => {
+let make = (
+  ~id=?,
+  ~onClick=?,
+  ~size=?,
+  ~kind=?,
+  ~type_=?,
+  ~className=?,
+  ~disabled=false,
+  ~children,
+) => {
   <button
+    ?onClick
     disabled={disabled}
     id={getWithDefault(id, "")}
     type_={getWithDefault(type_, "button")}

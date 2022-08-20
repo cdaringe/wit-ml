@@ -10,6 +10,7 @@ module App = {
     let (title, mainContent) = switch url.path {
     | list{} => ("home", <Home />)
     | list{"w", _slug} => ("Post", <PostPage />)
+    | list{"w", _slug, "edit"} => ("Post", <PostEditPage />)
     | list{"login"} => ("Login", <Login />)
     | _ => ("404", <p> {string("not found")} </p>)
     }

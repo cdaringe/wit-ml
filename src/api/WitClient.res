@@ -68,7 +68,10 @@ let postModel = (routeParts, ~json, decode) =>
   )
 
 module Posts = {
-  let get = (~slug: string) => getModel([j`posts/${slug}`], Post.t_decode)
+  let get = (~slug: string, ()) =>
+    getModel([j`posts/${slug}`], Post.t_decode)->Promise.mapOk(res =>
+      Belt_Array.getUnsafe(res.values, 0)
+    )
   let getRecent = (~limit: int, ~offset: int, ()) =>
     getModel(
       [j`posts/recent?limit=${Belt.Int.toString(limit)}&offset=${Belt.Int.toString(offset)}`],

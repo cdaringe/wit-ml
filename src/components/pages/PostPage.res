@@ -1,25 +1,31 @@
 @react.component
 let make = () => {
   open React
-  let (postOpt, setPostOpt) = React.useState(_ => None)
   let (bodyOpt, setBody) = React.useState(_ => None)
   let {user} = WitCtxUser.useContext()
   let url = RescriptReactRouter.useUrl()
-  useEffect0(() => {
-    open WitClient
-    let slug = url.path->Belt_List.getExn(1)
-    let _ = Posts.get(~slug)->Promise.getOk((res: ApiResponse.t<Post.t>) => {
-      setPostOpt(_ => Some(Belt_Array.getUnsafe(res.values, 0)))
-    })
-    None
-  })
-  MdHk.useSetMarkdownOpt(setBody, postOpt, p => p.body)
-  switch (postOpt, bodyOpt) {
-  | (Some(post), Some(body)) => <>
+  let (articleData, articleFetching) = CQuery.useQuery(
+    ~queryFn=WitClient.Posts.get(~slug=url.path->Belt_List.getExn(1)),
+    ~fatalErr=WitErr.Failed_request,
+  )
+  switch (bodyOpt, articleData, articleFetching) {
+  | (_, CQuery.Error(err), _) => err->WitErr.toString->React.string
+  | (None, CQuery.Data(data), _) => {
+      setBody(_ => Some(Md.toHtml(data.body)))
+      <SkeletonList />
+    }
+  | (_, CQuery.Empty, _) => <SkeletonList />
+  | (Some(body), CQuery.Data(post), _) => <>
       {switch user {
       | Some(_) =>
+        let onClick = _ => {
+          let nextPath = Belt.List.toArray(url.path)
+          nextPath->Js.Array2.push("edit")->ignore
+          RescriptReactRouter.push(`/${nextPath->Str.join("/")}`)
+          ()
+        }
         <div className="w-full p-2 bg-slate-500 mb-2 rounded-sm">
-          <Button size=Button.Small> {"Edit"->string} </Button>
+          <Button size=Button.Small onClick> {"Edit"->string} </Button>
         </div>
       | _ => null
       }}
@@ -27,6 +33,5 @@ let make = () => {
       <h1 className="text-2xl"> {string(post.title)} </h1>
       <p className="markdown-body" dangerouslySetInnerHTML={{"__html": body}} />
     </>
-  | _ => null
   }
 }
