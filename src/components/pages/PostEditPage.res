@@ -14,7 +14,7 @@ let make = () => {
       <div className="min-h-full relative">
         <TinyMCEReact.Editor
           onInit={(_, e) => editor.current = Some(e)}
-          initialValue="<p>This is the initial content of the editor.</p>"
+          initialValue=post.body
           init={TinyMCEReact.initConfig(
             // ~height=500,
             ~menubar=false,
