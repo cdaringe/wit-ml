@@ -8,7 +8,11 @@
     "build": "run-s build:rescript build:bundle build:tailwind",
     "clean": "rescript clean -with-deps",
     "dev": "pnpm run clean && run-p dev:*",
-    "dev:server": "node-dev dev-server.mjs"
+    "dev:rescript": "rescript build -w",
+    "dev:tailwind": "tailwindcss -i ./src/app.css -o ./public/css/app.css --watch",
+    "__": "NODE_OPTIONS='--trace-warnings'",
+    "dev:server": "node-dev --respawn ./.devserver/bin.mjs",
+    "format": "prettier --write .devserver/**/*.mjs"
   },
   "keywords": [
     "rescript"
@@ -16,27 +20,35 @@
   "author": "cdaringe",
   "license": "MIT",
   "dependencies": {
+    "@rescriptbr/react-query": "0.0.2",
+    "@tinymce/tinymce-react": "4.2.0",
     "bs-platform": "9.0.2",
     "decco": "^1.6.0",
     "insane": "2.6.2",
     "marked": "4.0.18",
     "monaco-editor": "0.34.0",
+    "react-query": "3.39.2",
     "reason-promise": "1.1.5",
     "remark": "14.0.2",
     "remark-gfm": "3.0.1",
     "rescript": "*",
-    "rescript-classnames": "6.0.0"
+    "rescript-classnames": "6.0.0",
+    "rescript-tinymce-react": "1.0.2"
   },
   "devDependencies": {
     "@rescript/react": "0.10.3",
     "bs-fetch": "0.6.2",
     "esbuild": "0.14.48",
+    "express": "4.18.1",
     "fs-extra": "10.1.0",
+    "http-proxy-middleware": "2.0.6",
     "node-dev": "7.4.3",
     "npm-run-all": "4.1.5",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "rescript-webapi": "0.6.1",
-    "tailwindcss": "3.1.4"
+    "serve-static": "1.15.0",
+    "tailwindcss": "3.1.4",
+    "tinymce": "6.1.2"
   }
 }

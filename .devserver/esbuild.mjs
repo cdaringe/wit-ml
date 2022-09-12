@@ -2,8 +2,8 @@ import * as esbuild from "esbuild";
 import { servedir } from "./common.mjs";
 import { buildCommon } from "../.esbuild/common.mjs";
 
-export const serve = () =>
-  esbuild.serve(
+export const serve = () => {
+  return esbuild.serve(
     { servedir },
     {
       entryPoints: ["lib/es6/src/App.bs.js"],
@@ -14,3 +14,4 @@ export const serve = () =>
       ...buildCommon,
     }
   );
+};

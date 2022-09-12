@@ -3,7 +3,7 @@ type response = Fetch.Response.t
 @val external fetchWithInit: (string, Fetch.RequestInit.t) => Promise.t<response> = "fetch"
 @send external text: response => Promise.t<string> = "text"
 
-type apiResult<'a> = Promise.result<'a, WitErr.witErr>
+type apiResult<'a> = Promise.result<'a, WitErr.t>
 type apiPMap<'a, 'b> = Promise.t<apiResult<'a>> => Promise.t<apiResult<'b>>
 
 let getUrl = parts => j`/api/${Str.join(parts, "/")}`
@@ -26,9 +26,10 @@ let json: apiPMap<'a, 'b> = p =>
     v
   })
 
-let tapCatchLog = p => p->Promise.tapError(Js.Console.error)
+let tapCatchLog = (description, p) => Promise.tapError(p, e => Js.Console.error2(description, e))
 
-let getJson = pathParts => pathParts->getUrl->fetch->errorOnNotOk->json->tapCatchLog
+let getJson = pathParts =>
+  pathParts->getUrl->(url => fetch(url)->errorOnNotOk->json->(p => tapCatchLog("GET: " ++ url, p)))
 
 let post = (
   ~makeInit as makeInit'=?,
@@ -53,7 +54,7 @@ let post = (
   | Some(fn) => fn(~makeInit, ~url, ~method_, ~headers, ~body=encodedBody)
   | None => makeInit(~method_, ~headers, ~body=encodedBody, ())
   }
-  fetchWithInit(url, init)->errorOnNotOk->json->tapCatchLog
+  fetchWithInit(url, init)->errorOnNotOk->json->(p => tapCatchLog("POST: " ++ url, p))
 }
 
 let getModel = (pathParts, decode) =>

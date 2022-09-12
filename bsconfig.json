@@ -7,16 +7,17 @@
   },
   "package-specs": {
     "module": "es6"
-    // "in-source": true
   },
   "suffix": ".bs.js",
   "reason": { "react-jsx": 3 },
   "bs-dependencies": [
     "@rescript/react",
+    "@rescriptbr/react-query",
     "bs-fetch",
     "decco",
     "reason-promise",
     "rescript-classnames",
+    "rescript-tinymce-react",
     "rescript-webapi"
   ],
   "ppx-flags": ["decco/ppx"],

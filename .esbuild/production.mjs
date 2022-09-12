@@ -1,11 +1,11 @@
 import * as common from "./common.mjs";
 import * as path from "path";
+import { build } from "./components/_all.mjs";
+
 async function buildAll() {
-  await common.buildMonaco();
-  await common.build({
-    ...common.buildCommon,
-    entryPoints: [path.resolve(common.rootDirname, "lib/es6/src/App.bs.js")],
-    bundle: true,
-    outdir: path.resolve(common.publicDir, "js"),
-  });
+  common.log("starting build");
+  await build();
+  common.log("build complete");
 }
+
+buildAll();
