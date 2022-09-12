@@ -70,7 +70,7 @@ let postModel = (routeParts, ~json, decode) =>
 
 module Posts = {
   let get = (~slug: string, ()) =>
-    getModel([j`posts/${slug}`], Post.t_decode)->Promise.mapOk(res =>
+    getModel([j`posts/${slug}?body_as=html`], Post.t_decode)->Promise.mapOk(res =>
       Belt_Array.getUnsafe(res.values, 0)
     )
   let getRecent = (~limit: int, ~offset: int, ()) =>
