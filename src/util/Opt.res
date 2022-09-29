@@ -1,3 +1,5 @@
+let map = (x, f) => Belt.Option.mapWithDefault(x, None, f)
+
 let toResult = (opt, e) =>
   switch opt {
   | Some(v) => Ok(v)

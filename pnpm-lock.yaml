@@ -44,7 +44,7 @@ dependencies:
   remark-gfm: 3.0.1
   rescript: 9.1.4
   rescript-classnames: 6.0.0
-  rescript-tinymce-react: link:../rescript-tinymce-react
+  rescript-tinymce-react: link:node_modules/rescript-tinymce-react
 
 devDependencies:
   '@rescript/react': 0.10.3_biqbaboplfbrettd7655fr4n2y

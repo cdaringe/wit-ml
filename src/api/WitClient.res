@@ -32,15 +32,16 @@ let getJson = pathParts =>
   pathParts->getUrl->(url => fetch(url)->errorOnNotOk->json->(p => tapCatchLog("GET: " ++ url, p)))
 
 let post = (
+  ~method=Bs_fetch.Post,
   ~makeInit as makeInit'=?,
   ~setHeaders as setHeaders'=?,
   ~encodeBody=Js.Json.stringify,
   ~body,
-  parts,
+  urlParts,
 ) => {
-  let url = getUrl(parts)
+  let url = getUrl(urlParts)
   let makeInit = Bs_fetch.RequestInit.make
-  let method_ = Bs_fetch.Post
+  let method_ = method
   let encodedBody = Fetch.BodyInit.make(body->encodeBody)
   let defaultHeaders = Js.Dict.fromArray([
     ("content-type", "application/json"),
@@ -54,19 +55,22 @@ let post = (
   | Some(fn) => fn(~makeInit, ~url, ~method_, ~headers, ~body=encodedBody)
   | None => makeInit(~method_, ~headers, ~body=encodedBody, ())
   }
-  fetchWithInit(url, init)->errorOnNotOk->json->(p => tapCatchLog("POST: " ++ url, p))
+  fetchWithInit(url, init)->errorOnNotOk->json->(p => tapCatchLog(url, p))
 }
 
 let getModel = (pathParts, decode) =>
   getJson(pathParts)->Promise.mapOk(json => ApiResponse.t_decode(decode, json)->Belt_Result.getExn)
 
-let postModel = (routeParts, ~json, decode) =>
-  post(~body=json, routeParts)->Promise.flatMapOk(json =>
+let writeJsonHttp = (method, urlParts, json, decode) =>
+  post(~method, ~body=json, urlParts)->Promise.flatMapOk(json =>
     switch ApiResponse.t_decode(decode, json) {
     | Ok(v) => Ok(v)
     | Error(e) => Error(WitErr.Invalid_model_decode(e))
     }->Promise.resolved
   )
+
+let postModel = (urlParts, json, decode) => writeJsonHttp(Bs_fetch.Post, urlParts, json, decode)
+let patchModel = (urlParts, json, decode) => writeJsonHttp(Bs_fetch.Patch, urlParts, json, decode)
 
 module Posts = {
   let get = (~slug: string, ()) =>
@@ -78,6 +82,7 @@ module Posts = {
       [j`posts/recent?limit=${Belt.Int.toString(limit)}&offset=${Belt.Int.toString(offset)}`],
       Post.t_decode,
     )
+  let patch = (~id, ~json) => patchModel([j`posts/${Js.Int.toString(id)}`], json, _ => Ok())
 }
 
 let tapSetState = (setState: ('a => 'a) => unit, fn: ('a, 'b) => 'a, apiCall: Js.Promise.t<'b>) =>
@@ -87,12 +92,12 @@ let tapSetState = (setState: ('a => 'a) => unit, fn: ('a, 'b) => 'a, apiCall: Js
   })
 
 module Auth = {
+  let logout = () => postModel(["logout"], Js.Json.null, _ => Ok())
   let login = (~username, ~password) => {
     let model = PasswordLogin.login_encode({
       username: username,
       password: password,
     })
-    postModel(["login"], ~json=model, User.t_decode)
+    postModel(["login"], model, User.t_decode)
   }
-  let logout = () => postModel(["logout"], ~json=Js.Json.null, _ => Ok())
 }
