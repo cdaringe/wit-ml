@@ -41,3 +41,5 @@ let make = (
     {children}
   </button>
 }
+
+let default = make

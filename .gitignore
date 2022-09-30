@@ -10,3 +10,4 @@ build
 !dev-server.js
 lib
 public/js
+!styleguide.config.js
