@@ -24,7 +24,7 @@ specifiers:
   remark-gfm: 3.0.1
   rescript: '*'
   rescript-classnames: 6.0.0
-  rescript-tinymce-react: 1.0.3
+  rescript-tinymce-react: 1.0.5
   rescript-webapi: 0.6.1
   serve-static: 1.15.0
   tailwindcss: 3.1.4
@@ -44,7 +44,7 @@ dependencies:
   remark-gfm: 3.0.1
   rescript: 9.1.4
   rescript-classnames: 6.0.0
-  rescript-tinymce-react: 1.0.3_uppredynjidnncj3ngdqs76hja
+  rescript-tinymce-react: 1.0.5_uppredynjidnncj3ngdqs76hja
 
 devDependencies:
   '@rescript/react': 0.10.3_biqbaboplfbrettd7655fr4n2y
@@ -2179,8 +2179,8 @@ packages:
     resolution: {integrity: sha512-hfOffijzIPnULtRZW3Kf0DCfCaw9lhGaMxf81WYlREieyBS2KNMcdI/8g5uSXFj0j4Ci21xkf70EFCKjuCTqpw==}
     dev: false
 
-  /rescript-tinymce-react/1.0.3_uppredynjidnncj3ngdqs76hja:
-    resolution: {integrity: sha512-kzxk8x9Kxm8cohNrkrGIcNW2NbQ/cSx9QGhsewcjv2Gh7gvwIHwUC6vVX+MUVc/ODsh71Mqii8BSF/c/7XE9FQ==}
+  /rescript-tinymce-react/1.0.5_uppredynjidnncj3ngdqs76hja:
+    resolution: {integrity: sha512-UfbkG/TEAYvGvmM3cKqZtv3vznQXClzmhKC3mMK0U8pR0+S9AM+1n7jJSpZhhoj6Ags2vsRuQFimPYFqQvfBhA==}
     peerDependencies:
       '@rescript/react': '*'
       '@tinymce/tinymce-react': ^4

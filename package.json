@@ -33,7 +33,7 @@
     "remark-gfm": "3.0.1",
     "rescript": "*",
     "rescript-classnames": "6.0.0",
-    "rescript-tinymce-react": "1.0.3"
+    "rescript-tinymce-react": "1.0.5"
   },
   "devDependencies": {
     "@rescript/react": "0.10.3",
