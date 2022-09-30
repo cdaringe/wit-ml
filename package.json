@@ -7,7 +7,7 @@
     "build:tailwind": "tailwindcss -i ./src/app.css -o ./public/css/app.css",
     "build": "run-s build:rescript build:bundle build:tailwind",
     "clean": "rescript clean -with-deps",
-    "dev": "pnpm run clean && run-p dev:*",
+    "dev": "run-s clean && run-p dev:*",
     "dev:rescript": "rescript build -w",
     "dev:tailwind": "tailwindcss -i ./src/app.css -o ./public/css/app.css --watch",
     "__": "NODE_OPTIONS='--trace-warnings'",
