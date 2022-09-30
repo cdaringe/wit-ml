@@ -1,5 +1,5 @@
 let {string, null} = module(React)
-let submit = (~id, ~body, ~title, ~changeDescription) =>
+let submit = (~id, ~body, ~title, ~changeDescription, ~onError, ~onOk) =>
   WitClient.Posts.patch(
     ~id,
     ~json=PostEdit.t_encode({
@@ -9,6 +9,8 @@ let submit = (~id, ~body, ~title, ~changeDescription) =>
       change_description: changeDescription,
     }),
   )
+  ->Promise.tapError(e => onError(e))
+  ->Promise.tapOk(v => onOk(v))
 
 @react.component
 let make = () => {
@@ -21,6 +23,7 @@ let make = () => {
   let {data: articleData, isLoading, error: articleError} = RRQuery.useQueryR(~queryFn=_ =>
     WitClient.Posts.get(~slug=url.path->Belt_List.getExn(1), ())
   )
+  let {add} = WitCtxNotifications.useContext()
   React.useEffect2(() => {
     let _ = switch (articleData, titleEl.current) {
     | (Some({title}), Some(el)) => Webapi.Dom.HtmlInputElement.setValue(el, title)
@@ -34,7 +37,23 @@ let make = () => {
       let body = e'->TinyMCEReact.Editor.getContent
       let title = titleEl'->Webapi.Dom.HtmlInputElement.value
       let changeDescription = changeDescriptionEl'->Webapi.Dom.HtmlInputElement.value
-      submit(~id, ~body, ~title, ~changeDescription)->ignore
+      submit(
+        ~id,
+        ~body,
+        ~title,
+        ~changeDescription,
+        ~onError=e => {
+          open WitCtxNotifications
+          add(
+            make(~kind=Fail, ~duration=0, ~title="Update failure", ~msg=WitErr.toString(e), ()),
+          )->ignore
+        },
+        ~onOk=_ => {
+          open WitCtxNotifications
+          add(make(~kind=Success, ~duration=0, ~msg="Update successful", ()))->ignore
+          RescriptReactRouter.push(url.path->Path.popStr)
+        },
+      )->ignore
     | _ => ()
     }
   , [articleData])

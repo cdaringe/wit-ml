@@ -1,12 +1,12 @@
 open React
-type kind = Info | Success | Warning | Error
+type kind = Info | Success | Warning | Fail
 type t = {msg: string, duration: int, kind: kind, date: Js.Date.t, title: string}
 
 let kindToString = k =>
   switch k {
   | Info => "Info"
   | Warning => "Warning"
-  | Error => "Error"
+  | Fail => "Error"
   | Success => "Success"
   }
 

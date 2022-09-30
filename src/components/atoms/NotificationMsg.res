@@ -3,7 +3,7 @@ let classNameOfKind = (k: WitCtxNotifications.kind) =>
   | Info => ("bg-blue-600", "border-blue-500")
   | Success => ("bg-green-500", "border-green-400")
   | Warning => ("bg-yellow-500", "border-yellow-400")
-  | Error => ("bg-red-600", "border-red-500")
+  | Fail => ("bg-red-600", "border-red-500")
   }
 
 @react.component
