@@ -23,7 +23,7 @@
     "@rescriptbr/react-query": "0.0.2",
     "@tinymce/tinymce-react": "4.2.0",
     "bs-platform": "9.0.2",
-    "decco": "^1.6.0",
+    "decco": "1.6.0",
     "insane": "2.6.2",
     "marked": "4.0.18",
     "monaco-editor": "0.34.0",
