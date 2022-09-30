@@ -20,14 +20,17 @@ module App = {
     | _ => ({title: "404", isSearchEnabled: true}, <p> {string("not found")} </p>)
     }
     useEffect1(() => WitDom.setTitle(title), [title])
-    <ReactQuery.Provider client>
-      <WitCtxUser.Provider ?initialUser>
-        <div id="app" className="flex flex-col h-screen container m-auto">
-          <Header isSearchEnabled />
-          <main className="w-full bg-slate-700 flex-grow p-8 mt-2"> {mainContent} </main>
-        </div>
-      </WitCtxUser.Provider>
-    </ReactQuery.Provider>
+    <WitCtxNotifications.Provider>
+      <ReactQuery.Provider client>
+        <WitCtxUser.Provider ?initialUser>
+          <div id="app" className="flex flex-col h-screen container m-auto">
+            <NotificationCenter />
+            <Header isSearchEnabled />
+            <main className="w-full bg-slate-700 flex-grow p-8 mt-2"> {mainContent} </main>
+          </div>
+        </WitCtxUser.Provider>
+      </ReactQuery.Provider>
+    </WitCtxNotifications.Provider>
   }
 }
 

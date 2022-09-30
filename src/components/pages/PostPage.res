@@ -1,6 +1,13 @@
 @react.component
 let make = () => {
   open React
+  let {add} = WitCtxNotifications.useContext()
+  useEffect0(() => {
+    open WitCtxNotifications
+    add(make(~msg="sup", ()))
+    add(make(~kind=Warning, ~duration=1000000000, ~msg="sup", ()))
+    None
+  })
   let (bodyOpt, setBody) = React.useState(_ => None)
   let {user} = WitCtxUser.useContext()
   let url = RescriptReactRouter.useUrl()
