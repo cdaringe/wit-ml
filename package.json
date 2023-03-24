@@ -25,7 +25,7 @@
     "bs-platform": "9.0.2",
     "decco": "^1.6.0",
     "insane": "2.6.2",
-    "marked": "4.0.18",
+    "marked": "4.3.0",
     "monaco-editor": "0.34.0",
     "react-query": "3.39.2",
     "reason-promise": "1.1.5",
