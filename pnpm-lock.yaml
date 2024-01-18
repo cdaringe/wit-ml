@@ -25,7 +25,7 @@ specifiers:
   rescript: '*'
   rescript-classnames: 6.0.0
   rescript-tinymce-react: 1.0.5
-  rescript-webapi: 0.6.1
+  rescript-webapi: 0.9.1
   serve-static: 1.15.0
   tailwindcss: 3.1.4
   tinymce: 6.1.2
@@ -57,7 +57,7 @@ devDependencies:
   npm-run-all: 4.1.5
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
-  rescript-webapi: 0.6.1
+  rescript-webapi: 0.9.1
   serve-static: 1.15.0
   tailwindcss: 3.1.4
   tinymce: 6.1.2
@@ -2189,8 +2189,8 @@ packages:
       '@tinymce/tinymce-react': 4.2.0_biqbaboplfbrettd7655fr4n2y
     dev: false
 
-  /rescript-webapi/0.6.1:
-    resolution: {integrity: sha512-I/eeHOcsUfWbCf6u15zd+rKxMz9awSjjdRa8eFtl2X+HjDNs0mJxoC4uFFK9dIazYcmY2VpuK5TTpOPXvdkhDw==}
+  /rescript-webapi/0.9.1:
+    resolution: {integrity: sha512-6havxEsyCgcCB4EsH8ac2QpLVbv5Nv6IMjTIn6XifpU/bjgXEvMTpNJ78/JEKtSH6kFUeFV/T/QHPRSZb66Rew==}
     dev: true
 
   /rescript/9.1.4:
