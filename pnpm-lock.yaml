@@ -2,7 +2,7 @@ lockfileVersion: 5.4
 
 specifiers:
   '@rescript/react': 0.10.3
-  '@rescriptbr/react-query': 0.0.2
+  '@rescriptbr/react-query': 1.1.1
   '@tinymce/tinymce-react': 4.2.0
   bs-fetch: 0.6.2
   bs-platform: 9.0.2
@@ -31,7 +31,7 @@ specifiers:
   tinymce: 6.1.2
 
 dependencies:
-  '@rescriptbr/react-query': 0.0.2_4ws4l26pb5tz5olkjn4nc4yvh4
+  '@rescriptbr/react-query': 1.1.1_myslk6z4g2jknctm5gexqoijem
   '@tinymce/tinymce-react': 4.2.0_biqbaboplfbrettd7655fr4n2y
   bs-platform: 9.0.2
   decco: 1.6.0_bs-platform@9.0.2
@@ -101,16 +101,18 @@ packages:
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
 
-  /@rescriptbr/react-query/0.0.2_4ws4l26pb5tz5olkjn4nc4yvh4:
-    resolution: {integrity: sha512-Z4qlTTxSuFouSH2Sdi62aGDU6IoUoZSX4Vy2yI0epDyjWmTVLYKt9vYuyWcKNDZNgJ0Ned+g0CrFBf1xkM5x6A==}
+  /@rescriptbr/react-query/1.1.1_myslk6z4g2jknctm5gexqoijem:
+    resolution: {integrity: sha512-zBE/vscWzuL/MeqoAjY8+p7byGINWykTlgOM5jczYByElC+JTNZGOB8osY+7LyMoOpwW8xf1c11diPmD6bbodg==}
     peerDependencies:
-      '@rescript/react': ^0.10.3
+      '@rescript/react': '>=0.10.3'
       react: '>=17.0.2'
       react-dom: '>=17.0.2'
+      rescript: '>=10.0.1'
     dependencies:
       '@rescript/react': 0.10.3_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
+      rescript: 9.1.4
     dev: false
 
   /@tinymce/tinymce-react/4.2.0_biqbaboplfbrettd7655fr4n2y:

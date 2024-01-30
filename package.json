@@ -20,7 +20,7 @@
   "author": "cdaringe",
   "license": "MIT",
   "dependencies": {
-    "@rescriptbr/react-query": "0.0.2",
+    "@rescriptbr/react-query": "1.1.1",
     "@tinymce/tinymce-react": "4.2.0",
     "bs-platform": "9.0.2",
     "decco": "^1.6.0",
