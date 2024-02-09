@@ -28,7 +28,7 @@ specifiers:
   rescript-webapi: 0.6.1
   serve-static: 1.15.0
   tailwindcss: 3.1.4
-  tinymce: 6.1.2
+  tinymce: 6.8.3
 
 dependencies:
   '@rescriptbr/react-query': 0.0.2_4ws4l26pb5tz5olkjn4nc4yvh4
@@ -60,7 +60,7 @@ devDependencies:
   rescript-webapi: 0.6.1
   serve-static: 1.15.0
   tailwindcss: 3.1.4
-  tinymce: 6.1.2
+  tinymce: 6.8.3
 
 packages:
 
@@ -122,7 +122,7 @@ packages:
       prop-types: 15.8.1
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
-      tinymce: 6.1.2
+      tinymce: 6.8.3
     dev: false
 
   /@types/debug/4.1.7:
@@ -2429,8 +2429,8 @@ packages:
       - ts-node
     dev: true
 
-  /tinymce/6.1.2:
-    resolution: {integrity: sha512-tl4KbEKdPzyPTatJkblN2AqzRj9jaRGyATnwaSnsLFGKb4AI6B+4e0Gc8dUDXuqAjgSnHokhzamrQJLbSn4CmQ==}
+  /tinymce/6.8.3:
+    resolution: {integrity: sha512-3fCHKAeqT+xNwBVESf6iDbDV0VNwZNmfrkx9c/6Gz5iB8piMfaO6s7FvoiTrj1hf1gVbfyLTnz1DooI6DhgINQ==}
 
   /to-regex-range/5.0.1:
     resolution: {integrity: sha512-65P7iz6X5yEr1cwcgvQxbbIw7Uk3gOy5dIdtZ4rDveLqhrdJP+Li/Hx6tyK0NEb+2GCyneCMJiGqrADCSNk8sQ==}
