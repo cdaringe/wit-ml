@@ -26,7 +26,7 @@
     "decco": "^1.6.0",
     "insane": "2.6.2",
     "marked": "4.0.18",
-    "monaco-editor": "0.34.0",
+    "monaco-editor": "0.47.0",
     "react-query": "3.39.2",
     "reason-promise": "1.1.5",
     "remark": "14.0.2",
